@@ -944,6 +944,11 @@ int PageSet::SetPage(std::string page)
 	return -1;
 }
 
+std::string PageSet::GetPage() const
+{
+	return mCurrentPage ? mCurrentPage->GetName() : std::string();
+}
+
 int PageSet::SetOverlay(Page* page)
 {
 	if (page) {
@@ -1509,6 +1514,10 @@ int PageManager::ReloadPackage(std::string name, std::string package)
 	PageSet* set = (*iter).second;
 	mPageSets.erase(iter);
 
+	std::string currentPage;
+	if (mCurrentSet)
+		currentPage = mCurrentSet->GetPage();
+
 	if (LoadPackage(name, package, mStartPage) != 0)
 	{
 		LOGINFO("Failed to load package '%s'.\n", package.c_str());
@@ -1518,6 +1527,10 @@ int PageManager::ReloadPackage(std::string name, std::string package)
 	if (mCurrentSet == set)
 		SelectPackage(name);
 	delete set;
+
+	if (!currentPage.empty())
+		mCurrentSet->SetPage(currentPage);
+
 	GUIConsole::Translate_Now();
 	return 0;
 }
