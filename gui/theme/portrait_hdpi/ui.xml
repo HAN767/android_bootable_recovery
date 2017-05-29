@@ -292,7 +292,8 @@
 			</action>
 
 			<action>
-				<action function="set">switchsystem_enabled=</action>
+				<condition var1="property.ro.tw_has_dualboot" var2="1" />
+				<action function="set">switchsystem_enabled=0</action>
 			</action>
 			<action>
 				<conditions>
@@ -319,7 +320,7 @@
 
 			<button style="activesystem_button">
 				<placement x="830" y="%row2_header_y%" w="250" h="%tab_height%"/>
-				<condition var1="switchsystem_enabled" op="!=" var2="1" />
+				<condition var1="switchsystem_enabled" op="=" var2="0" />
 				<text>%text_dualboot.system_current%%text_dualboot.dualdatamark%</text>
 			</button>
 
