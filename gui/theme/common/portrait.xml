@@ -181,7 +181,7 @@
 
 			<text style="text_l">
 				<placement x="%col1_x_header%" y="%row3_header_y%"/>
-				<text>{@twrp_header=TWRP v%tw_version% for %property.ro.product.model%}</text>
+				<text>{@twrp_header=TWRP for %property.ro.product.model%}</text>
 			</text>
 
 			<text style="text_m">
