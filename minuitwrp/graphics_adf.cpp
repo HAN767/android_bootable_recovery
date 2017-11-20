@@ -168,6 +168,15 @@ static GRSurface* adf_init(minui_backend *backend)
     ssize_t n_dev_ids, i;
     GRSurface* ret;
 
+    n_dev_ids = adf_devices(&dev_ids);
+    if (n_dev_ids == 0) {
+        return NULL;
+    } else if (n_dev_ids < 0) {
+        fprintf(stderr, "enumerating adf devices failed: %s\n",
+                strerror(-n_dev_ids));
+        return NULL;
+    }
+
 #if defined(RECOVERY_ABGR)
     pdata->format = DRM_FORMAT_ABGR8888;
     printf("setting DRM_FORMAT_ABGR8888 and GGL_PIXEL_FORMAT_BGRA_8888, GGL_PIXEL_FORMAT may not match!\n");
@@ -184,15 +193,6 @@ static GRSurface* adf_init(minui_backend *backend)
     pdata->format = DRM_FORMAT_RGB565;
     printf("setting DRM_FORMAT_RGB565 and GGL_PIXEL_FORMAT_RGB_565\n");
 #endif
-
-    n_dev_ids = adf_devices(&dev_ids);
-    if (n_dev_ids == 0) {
-        return NULL;
-    } else if (n_dev_ids < 0) {
-        fprintf(stderr, "enumerating adf devices failed: %s\n",
-                strerror(-n_dev_ids));
-        return NULL;
-    }
 
     pdata->intf_fd = -1;
 
