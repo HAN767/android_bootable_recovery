@@ -14,6 +14,12 @@
 
 LOCAL_PATH := $(call my-dir)
 
+ifeq ($(shell test $(PLATFORM_SDK_VERSION) -gt 25; echo $$?),0)
+static_lib_libcrypto := libcrypto
+else
+static_lib_libcrypto := libcrypto_static
+endif
+
 # libapplypatch (static library)
 # ===============================
 include $(CLEAR_VARS)
@@ -31,7 +37,7 @@ LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
 LOCAL_STATIC_LIBRARIES := \
     libotafault \
     libbase \
-    libcrypto \
+    $(static_lib_libcrypto) \
     libbspatch \
     libbz \
     libz
@@ -62,7 +68,7 @@ LOCAL_C_INCLUDES := \
     $(commands_recovery_local_path)
 LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
 LOCAL_STATIC_LIBRARIES := \
-    libcrypto \
+    $(static_lib_libcrypto) \
     libbspatch \
     libbase \
     libbz \
@@ -85,7 +91,7 @@ LOCAL_C_INCLUDES := \
     $(commands_recovery_local_path)
 LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
 LOCAL_STATIC_LIBRARIES := \
-    libcrypto \
+    $(static_lib_libcrypto) \
     libbspatch \
     libbase \
     libbz \
@@ -106,7 +112,7 @@ LOCAL_STATIC_LIBRARIES := \
     libapplypatch \
     libbase \
     libedify \
-    libcrypto
+    $(static_lib_libcrypto)
 LOCAL_CFLAGS := -Werror
 include $(BUILD_STATIC_LIBRARY)
 
@@ -122,7 +128,7 @@ LOCAL_STATIC_LIBRARIES := \
     libbase \
     libedify \
     libotafault \
-    libcrypto \
+    $(static_lib_libcrypto) \
     libbspatch \
     libbz
 LOCAL_SHARED_LIBRARIES := \
